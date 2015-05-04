@@ -3,6 +3,7 @@
 module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-contrib-jshint");
   grunt.loadNpmTasks("grunt-jscs");
+  grunt.loadNpmTasks("grunt-simple-mocha");
 
   var srcFiles = [ "Gruntfile.js", "test/**/*.js", "transformer.js", "./lib/*" ];
 
@@ -14,6 +15,12 @@ module.exports = function(grunt) {
         jshintrc: true
       }
     },
+
+    simplemocha: {
+      all: {
+        src: [ "test/transformer_test.js" ]
+      }
+    },
     jscs: {
       src: srcFiles,
       options: {
@@ -22,5 +29,5 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask("test", [ "jshint", "jscs" ]);
+  grunt.registerTask("test", [ "jshint", "jscs", "simplemocha" ]);
 };
