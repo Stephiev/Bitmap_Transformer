@@ -5,30 +5,30 @@
 
 function run(file, fileName, callback) {
 
-var fs = require("fs");
-var invertPixels = require("./lib/invertPixels.js");
-var invertPalette = require("./lib/invertPalette.js");
+  var fs = require("fs");
+  var invertPixels = require("./lib/invertPixels.js");
+  var invertPalette = require("./lib/invertPalette.js");
 
-fs.readFile(file, function(err, data) {
+  fs.readFile(file, function(err, data) {
 
-var bitMapFileHeader = {
-   type: data.slice(0, 2).toString("ascii"),
-   size: data.readUInt32LE(2), // in bytes
-   pixelOffset: data.readUInt32LE(10)
-};
+    var bitMapFileHeader = {
+      type: data.slice(0, 2).toString("ascii"), // Was not used in the program.
+      size: data.readUInt32LE(2), // In bytes. Was not used in the program but wanted to keep it.
+      pixelOffset: data.readUInt32LE(10)
+    };
 
-if (bitMapFileHeader.pixelOffset == 54) {
-  invertPixels(data, bitMapFileHeader.pixelOffset);
- } else {
-  invertPalette(data, bitMapFileHeader.pixelOffset);
-}
-
-  fs.writeFile(fileName, data, function(err) {
-    if (err) { throw err; }
-    console.log("The inverted file is saved at " + fileName + "!");
-    if (typeof callback === "function") {
-    callback();
+    if (bitMapFileHeader.pixelOffset == 54) {
+      invertPixels(data, bitMapFileHeader.pixelOffset);
+    } else {
+      invertPalette(data, bitMapFileHeader.pixelOffset);
     }
+
+    fs.writeFile(fileName, data, function(err) {
+      if (err) { throw err; }
+      console.log("The inverted file is saved at " + fileName + "!");
+      if (typeof callback === "function") {
+        callback();
+      }
     });
   });
 }
