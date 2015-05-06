@@ -2,13 +2,12 @@
 
 // Your project should be able to take a transform as a callback that
 // will be run once the bitmap file has been read into a buffer.
-
-function run(file, fileName, callback) {
-
   var fs = require("fs");
   var invertPixels = require("./lib/invertPixels.js");
   var invertPalette = require("./lib/invertPalette.js");
 
+
+function run(file, fileName, callback) {
   fs.readFile(file, function(err, data) {
 
     var bitMapFileHeader = {
